@@ -1,4 +1,7 @@
 Coursera--Data-Analysis
 =======================
 
-Repository for my work during Data Analysis course on Coursera.
+About the Course
+You have probably heard that this is the era of “Big Data”. Stories about companies or scientists using data to recommend movies, discover who is pregnant based on credit card receipts, or confirm the existence of the Higgs Boson regularly appear in Forbes, the Economist, the Wall Street Journal, and The New York Times. But how does one turn data into this type of insight? The answer is data analysis and applied statistics. Data analysis is the process of finding the right data to answer your question, understanding the processes underlying the data, discovering the important patterns in the data, and then communicating your results to have the biggest possible impact. There is a critical shortage of people with these skills in the workforce, which is why Hal Varian (Chief Economist at Google) says that being a statistician will be the sexy job for the next 10 years. 
+
+This course is an applied statistics course focusing on data analysis. The course will begin with an overview of how to organize, perform, and write-up data analyses. Then we will cover some of the most popular and widely used statistical methods like linear regression, principal components analysis, cross-validation, and p-values. Instead of focusing on mathematical details, the lectures will be designed to help you apply these techniques to real data using the R statistical programming language, interpret the results, and diagnose potential problems in your analysis. You will also have the opportunity to critique and assist your fellow classmates with their data analyses.
