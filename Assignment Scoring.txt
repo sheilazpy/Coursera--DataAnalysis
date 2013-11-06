@@ -1,7 +1,8 @@
 The Data Analysis Rubric
 You will assign a numerical score between 0 and 5 for each of the questions in the following rubric. 
 
-Item 1 - Write-up
+Item 1 - Write-up:
+
 Does the analysis have an introduction, methods, analysis, and conclusions?
 Are figures labeled and referred to by number in the text?
 Is the analysis written in clear and understandable English?
@@ -15,11 +16,12 @@ Are estimators/predictions appropriately interpreted?
 Does the analysis make concrete conclusions?
 Does the analysis specify potential problems with the conclusions?
 
-Item 2 - Figure and caption
+Item 2 - Figure and caption:
+
 Is the figure caption descriptive enough to stand alone?
 Does the figure focus on a key issue in the processing/modeling of the data?
 Are axes labeled and are the labels large enough to read?
 
 
-Item 3 - References
+Item 3 - References:
 Does the analysis include references for the statistical methods used?
