@@ -4,41 +4,35 @@ Final Submission
 setwd("~/Coursera--DataAnalysis/Data Analysis Project 1")
 load('loansData.rda')
 
-# Clean it:
+# Cleaning dataset:
   #Replacing % from data & importing as numeric values:
 loansData$Interest.Rate <- sapply(sub(pattern="%",replacement="",x=loansData$Interest.Rate,),FUN=as.numeric)
 loansData$Debt.To.Income.Ratio <- sapply(sub(pattern="%",replacement= "",x=loansData$Debt.To.Income.Ratio,),FUN=as.numeric)
 
   #Other Changes:
-loansData$Loan.Length <- sapply(sub(" months", "", loansData$Loan.Length,), as.numeric)
+loansData$Loan.Length <- sapply(sub(" months", "", loansData$Loan.Length,),FUN=as.numeric)
 loansData$Employment.Length <- factor(loansData$Employment.Length,levels(loansData$Employment.Length)[c(2:3,5:12,4,13,1)])
-loansData$Employment.Length.numeric <- sub(" years?", "", loansData$Employment.Length)
-loansData$Employment.Length.numeric <- sub("\\+", "", loansData$Employment.Length.numeric)
-loansData$Employment.Length.numeric <- sub("< 1", "0", loansData$Employment.Length.numeric)
-loansData$Employment.Length.numeric <- sub("n/a", "-1", loansData$Employment.Length.numeric)
-loansData$Employment.Length.numeric <- sapply(loansData$Employment.Length.numeric, as.numeric)
-loansData$FICO.Range.floor <- sapply(sub("-\\d{3}", "", loansData$FICO.Range), as.numeric)
-```
 
-Figures
--------
-```{r fig.width=8.5, fig.height=11}
-# open PDF
-pdf(file="loansData-analysis-4up.pdf", height=11, width=8.5)
+loansData$Employment.Length <- sub(pattern=" years?",replacement="", loansData$Employment.Length)
+loansData$Employment.Length<- sub(pattern="\\+", "",replacement=loansData$Employment.Length)
+loansData$Employment.Length<- sub(pattern="< 1",replacement="0", loansData$Employment.Length)
+loansData$Employment.Length<- sub(pattern="n/a",replacement="-1", loansData$Employment.Length)
+loansData$Employment.Length<- as.numeric(loansData$Employment.Length)
 
+loansData$FICO.Range<- sapply(sub("-\\d{3}", "", loansData$FICO.Range),FUN=as.numeric)
+
+#Figures
 par(mfrow=c(2,2))
 
-lmNoAdjust <- lm(loansData$Interest.Rate ~ loansData$Amount.Requested +
+lm_mine <- lm(loansData$Interest.Rate ~ loansData$Amount.Requested +
                    loansData$Amount.Funded.By.Investors + loansData$Loan.Length)
-xFICO = jitter(loansData$FICO.Range.floor)
+xFICO = jitter(as.numeric(loansData$FICO.Range))
 
-#par(mfrow=c(1,1))
-smoothScatter(loansData$FICO.Range.floor, loansData$Interest.Rate,
+smoothScatter(loansData$FICO.Range, loansData$Interest.Rate,
               xlab="Applicant FICO Score",
               ylab="Loan Interest Rate (%)",
               main="Figure 1. Interest Rate by FICO Score")
 
-#par(mfrow=c(1,1))
 plot(xFICO, loansData$Interest.Rate,
      col=as.factor(cut(loansData$Amount.Requested,
                        breaks=c(0, 5000, 10000, 20000, 35000))),
@@ -78,7 +72,3 @@ legend(780, 25,
        legend=c("36 months", "60 months"),
        col=c("black", "red"),
        pch=19, cex=0.5)
-
-# close PDF
-dev.off()
-```
