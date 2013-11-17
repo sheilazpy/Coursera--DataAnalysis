@@ -1,0 +1,168 @@
+Writeup
+
+
+Title: Loan Length and Amount Funded Associated with Interest Rate
+================================================================================
+
+Introduction:
+-------------
+
+The Lending Club [1] performs peer-to-peer loans and determines the interest
+rate for a given applicant by considering several factors. Although multiple
+aspects of an application are assessed, two variables appear to have a key
+impact on the final interest rate: the **length of the loan**, and the
+**amount funded**.
+
+By understanding the relationship between these variables, we can make
+predictions about the interest rate, and inferences about the overall quality of
+the loan.
+
+Methods:
+--------
+
+### Data Collection
+
+This analysis used a sample of 2,500 loans from the Lending Club, as provided by
+instructor Jeff Leek for the Data Analysis class on Coursera.org [2]. These data
+were downloaded from the course website on February 16, 2013 using the R
+programming language [3].
+
+### Exploratory Analysis
+
+Several exploratory analyses were performed on the data set to assess its
+quality and to identify likely correlations among factors. First, observations
+with missing values were identified and removed. Second, transformations were
+performed to sanitize several factors; in particular, labeled variables were
+converted to their numeric equivalents (e.g., `36 months` became `36`). Third,
+plots and tables were surveyed to look for patterns and correlations.
+
+Lastly, a singular value decomposition (SVD) [4] was performed to narrow down the
+number of factors involved in the next phase of analysis. By plotting the values
+of the SVD, the "elbow" suggested that only factors accounting for greater than
+10% of the variance should be kept. As such, we retained the following factors
+for further study: **Amount Requested** (24.04%), **Amount Funded** (12.29%),
+and **Loan Length** (10.57%).
+
+### Statistical Modeling
+
+To relate the three identified factors with the Interest Rate outcome, a
+standard multivariate linear regression model [5] was performed. Factors for the
+model were selected based on the outcomes of the SVD (*vide supra*).
+Coefficients were estimated with ordinary least squares [5].
+
+Results:
+--------
+
+The loans data used in these analyses contain information captured about the
+following factors of a given loan application:
+
+  - **Amount Requested** (`Amount.Requested`) in dollars;
+  - **Amount Funded** (`Amount.Funded.By.Investors`) in dollars;
+  - **Interest Rate** (`Interest.Rate`) expressed as a percentage;
+  - **Loan Length** (`Loan.Length`) in months;
+  - **Loan Purpose** (`Loan.Purpose`) as reported by the applicant;
+  - **Debt/Income Ratio** (`Debt.To.Income.Ratio`) which is the amount of the
+    applicant's gross income that goes toward paying debts, expressed as a
+    percentage;
+  - **State** (`State`) where the applicant resides;
+  - **Home Ownership** (`Home.Ownership`) indicating whether the applicant owns,
+    rents, or has a mortgage on his home;
+  - **Monthly Income** (`Monthly.Income`) in dollars;
+  - **FICO range** (`FICO.Range`) measuring the creditworthiness of the
+    applicant;
+  - **Number of Open Credit Lines** (`Open.CREDIT.Lines`);
+  - **Revolving Credit Balance** (`Revolving.CREDIT.Balance`) in dollars;
+  - **Number of Credit Inquiries within 6 Months** (`Inquiries.in.the.Last.6.Months`);
+    and
+  - **Employment Length** (`Employment.Length`) expressed in years, except where
+    the employment length was less than one year or greater than or equal to ten
+    years.
+
+The exploratory analysis identified some missing or erroneous values, but these
+observations were retained for the linear model as the missing values did not
+appear in the factors under consideration. We also identified some outliers, but
+these were also retained as there was effectively no difference in the
+coefficients of the linear regression model whether they were included or not.
+
+Early analyses suggested a relationship between applicant FICO scores and
+the interest rates of the loan (Figure 1). As suggested by Figure 1, lower
+applicant FICO scores emerge as an indicator of higher interest rates. However,
+given the parameters of the analysis [2], we also know that interest rates are
+our outcome measure and that we are holding applicant FICO scores as a constant.
+
+To inspect the factors identified in our SVD, we performed additional plots to
+analyze the relationships between those factors, our outcome (interest rate),
+and our constant (FICO score). We replotted the FICO score and interest rate
+data, coloring the points by amount requested (Figure 2), amount funded (Figure
+3), and by the loan length (Figure 4). Although some stratification was
+suggested in the plots for amount requested and amount funded (Figures 2 and 3,
+respectively), a much stronger correlation was implied with loan length (Figure
+4).
+
+Delving deeper, we fit a regression model that looked at the interest rate
+(_IR_) as the outcome and examined the amount requested, amount funded, and the
+loan length. Our final regression model was:
+
+$$ IR = b_0 + b_1 (AR) + f(AF) + g(LL) + e $$
+
+where _b<sub>0</sub>_ is an intercept term and _b<sub>1</sub>_ represents the
+change in interest rate associated with the identified factors: loan amount
+requested (_AR_), the actual funded by investors (_AF_), and the length of the
+loan (_LL_). The regression model includes an error term (_e_) to represent all
+of the unmeasured and unmodeled sources of variance in the interest rate.
+
+We observed a highly statistically significant relationship between interest
+rate and loan length (_P_ < 0.001), as well as a statistically significant
+relationship between interest rate and amount funded (_P_ = 0.003); no
+significant relationship was found between interest rate and amount requested.
+Focusing on the most statistically significant relationship, we noted that a
+change in the loan length corresponded to a change of _b<sub>1</sub>_ = 0.14% in
+the interest rate (95% Confidence Interval: 0.13, 0.16); a change of one unit
+(_i.e._, $1000) in the amount funded corresponded to a change of _b<sub>1</sub> = 1.17%
+in the interest rate (95% Confidence Interval: <0.0001, 0.0002).
+
+Conclusions:
+------------
+
+These analyses suggest that given the same applicant FICO score, a difference in
+interest rate between two loans can most likely be explained by the length of
+the loans and the amount funded by investors. Of the two significant factors,
+the loan length appears to have the greatest effect, and the stratification that
+comes from this effect is rather strongly illustrated in Figure 4.
+
+Despite the strong effect indicated by the linear regression model, there
+remains a possibility that other factors may strongly influence the interest
+rate of a given applicant's loan. Though the singular value decomposition
+technique was used to identify the candidate factors, it is clearly an imperfect
+tool. Recall that the SVD pointed to the amount requested as accounting for the
+most variance in the data, and that this implied that the amount requested would
+also have the strongest effect in the final model. However, the amount requested
+ultimately did not have a statistically significant effect on the interest rate.
+This outcome leads us to suspect that other variables from the data, which were
+otherwise eliminated by the SVD, may affect the interest rate in important
+ways. Unfortunately, we did not analyze these other factors with that level of
+depth and cannot comment on them except to say that future analyses should probe
+them in more detail.
+
+Also, it is important to mention that the Loan Length factor only included two
+levels (_i.e._, "36 months" and "60 months"). This may have contributed to the
+strength of the factor's effect on the interest rate. It is unclear from the
+Lending Club's website [1] whether loans of any other length are available.
+Future analyses should incorporate loans with other lengths (_e.g._, 12 months,
+24 months, etc.) and/or loans from other sources to see if the effects and
+patterns indicated in the linear regression model persist.
+
+References:
+-----------
+
+1. The Lending Club website
+	URL: https://www.lendingclub.com/home.action
+	10 Nov,2013
+2. Coursera.org: Data Analysis Assignment:1
+	URL: https://class.coursera.org/dataanalysis-001/human_grading/view/courses/294/assessments/4/submissions
+   	10 Nov,2013.
+3. R Core Team (2013). "The R Project for Statistical Computing." URL: <http://www.r-project.org>.
+   	12 Nov,2013
+4. SINGLE VALUE DECOMPOSITION (SVD): A GOLFER’S TUTORIAL:
+	URL: http://datascientistinsights.com/2013/02/17/single-value-decomposition-a-golfers-tutotial/
+   	10 Nov,2013
