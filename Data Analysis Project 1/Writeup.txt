@@ -12,7 +12,7 @@ rate for a given applicant by considering many different factors. Even though mu
 factors of every application are assessed, two seem to have a major
 impact on the final interest rate:
 		a)	length of the loan
-		b)	amount funded
+		b)	Debt to Income Ratio
 
 By understanding the relationship between these factors, we can attempt to make
 predictions about the interest rate, and inferences about the overall quality of
@@ -34,15 +34,14 @@ Several preliminary analyses methods were performed on the data set to assess it
 quality and to identify possible correlations among factors.
 
 First, observations with missing values were identified and removed.
-Second, transformations were performed to sanitize several factors; in particular,
-	labeled variables converted to their numeric equivalents (e.g., `36 months` became `36`).
+Second, transformations were performed to sanitize several factors; in particular, labeled variables converted to their numeric equivalents (e.g., `36 months` became `36`).
 Third, plots and tables were surveyed to look for patterns and correlations.
 
 Lastly, a singular value decomposition (SVD) [4] was performed to narrow down the
 number of factors involved in the next phase of analysis. By plotting the values
 of the SVD, the "elbow" suggested that only factors accounting for greater than
 12% of the variance should be kept. As such, we retained the following factors
-for further study: **Amount Requested** (24.04%), **Amount Funded** (12.29%),
+for further study: **Amount Requested** (24.04%), **Debt To Income Ratio** (16.39%),
 and **Loan Length** (10.57%).
 
 ### Statistical Modeling
@@ -88,41 +87,35 @@ appear in the factors under consideration. We also identified some outliers, but
 these were also retained as there was effectively no difference in the
 coefficients of the linear regression model whether they were included or not.
 
-Early analyses suggested a relationship between applicant FICO scores and
-the interest rates of the loan (Figure 1). As suggested by Figure 1, lower
-applicant FICO scores emerge as an indicator of higher interest rates. However,
-given the parameters of the analysis [2], we also know that interest rates are
-our outcome measure and that we are holding applicant FICO scores as a constant.
+Preliminary analysis suggests a direct relationship between FICO scores & Interest rates(Figure 1). Lower Fico scores pointed towrds higher Interest rates. However, given the parameters of the analysis, we also know that interest rates are our outcome measure and that we are holding applicant FICO scores as a constant.
 
-To inspect the factors identified in our SVD, we performed additional plots to
+To inspect the factors identified in our SVD, we performed additional plotting to
 analyze the relationships between those factors, our outcome (interest rate),
 and our constant (FICO score). We replotted the FICO score and interest rate
 data, coloring the points by amount requested (Figure 2), amount funded (Figure
 3), and by the loan length (Figure 4). Although some stratification was
-suggested in the plots for amount requested and amount funded (Figures 2 and 3,
-respectively), a much stronger correlation was implied with loan length (Figure
-4).
+suggested in the plots for amount requested and amount funded , a much stronger correlation was implied with loan length (Figure 4).
 
 Delving deeper, we fit a regression model that looked at the interest rate
 (_IR_) as the outcome and examined the amount requested, amount funded, and the
 loan length. Our final regression model was:
 
-$$ IR = b_0 + b_1 (AR) + f(AF) + g(LL) + e $$
+$$ IR = b_0 + b_1 (AR) + f(DtI) + g(LL) + e $$
 
 where _b<sub>0</sub>_ is an intercept term and _b<sub>1</sub>_ represents the
 change in interest rate associated with the identified factors: loan amount
-requested (_AR_), the actual funded by investors (_AF_), and the length of the
+requested (_AR_), Debt to Income Ratio (_DtI_), and the length of the
 loan (_LL_). The regression model includes an error term (_e_) to represent all
 of the unmeasured and unmodeled sources of variance in the interest rate.
 
 We observed a highly statistically significant relationship between interest
 rate and loan length (_P_ < 0.001), as well as a statistically significant
-relationship between interest rate and amount funded (_P_ = 0.003); no
+relationship between interest rate and Debt to Income Ratio (_P_ = 0.004); no
 significant relationship was found between interest rate and amount requested.
 Focusing on the most statistically significant relationship, we noted that a
 change in the loan length corresponded to a change of _b<sub>1</sub>_ = 0.14% in
 the interest rate (95% Confidence Interval: 0.13, 0.16); a change of one unit
-(_i.e._, $1000) in the amount funded corresponded to a change of _b<sub>1</sub> = 1.17%
+(_i.e._, 1) in the Debt to Income Ratio corresponded to a change of _b<sub>1</sub> = 2.34%
 in the interest rate (95% Confidence Interval: <0.0001, 0.0002).
 
 Conclusions:
@@ -130,7 +123,7 @@ Conclusions:
 
 These analyses suggest that given the same applicant FICO score, a difference in
 interest rate between two loans can most likely be explained by the length of
-the loans and the amount funded by investors. Of the two significant factors,
+the loans and the Debt to Income Ratio. Of the two significant factors,
 the loan length appears to have the greatest effect, and the stratification that
 comes from this effect is rather strongly illustrated in Figure 4.
 

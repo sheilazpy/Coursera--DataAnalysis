@@ -22,21 +22,21 @@ loansData$Employment.Length<- as.numeric(loansData$Employment.Length)
 loansData$FICO.Range<- sapply(sub("-\\d{3}", "", loansData$FICO.Range),FUN=as.numeric)
 
 #Figures
-  #Creating a 2x2 frame for graphs
-par(mfrow=c(2,2))
 
 lm_mine <- lm(loansData$Interest.Rate ~ loansData$Amount.Requested +
-                   loansData$Amount.Funded.By.Investors + loansData$Loan.Length)
+                   loansData$Debt.To.Income.Ratio + loansData$Loan.Length)
 xFICO = jitter(as.numeric(loansData$FICO.Range))
 
+#Plot 1
 smoothScatter(loansData$FICO.Range, loansData$Interest.Rate,
               xlab="Applicant FICO Score",
               ylab="Loan Interest Rate (%)",
               main="Figure 1. Interest Rate by FICO Score")
 
+#Plot 2
 plot(xFICO, loansData$Interest.Rate,
      col=as.factor(cut(loansData$Amount.Requested,breaks=c(0,7500,15000, 22000,34000))),
-     pch=19, cex=0.5,
+     pch=19, cex=0.2,
      xlab="Applicant FICO Score",
      ylab="Loan Interest Rate (%)",
      main="Figure 2. Amount Requested")
@@ -45,23 +45,22 @@ legend(780, 25,
        col=c("black", "red", "green", "blue"),
        pch=19, cex=0.5)
 
-plot(xFICO, loansData$Interest.Rate,
-     col=as.factor(cut(loansData$Amount.Funded.By.Investors,
-                       breaks=c(0, 5000, 10000, 20000, 35000))),
-     pch=19, cex=0.5,
-     xlab="Applicant FICO Score",
-     ylab="Loan Interest Rate (%)",
-     main="Figure 3. Amount Funded")
-legend(780, 25,
-       legend=c("$0-5k", "$5-10k", "$10-20k", "$20-35k"),
+#Plot 3
+lengthFactor <- plot(xFICO, loansData$Debt.To.Income.Ratio,
+                     col=as.factor(cut(loansData$Debt.To.Income.Ratio,breaks=c(0,10,20,30,40))),
+                     pch=19, cex=0.2,
+                     xlab="Applicant FICO Score",
+                     ylab="Loan Interest Rate (%)",
+                     main="Figure 3. Debt To Income Ratio")
+legend(810, 35,
+       legend=c("0-10%", "10-20%", "$20-30%","30-40%"),
        col=c("black", "red", "green", "blue"),
        pch=19, cex=0.5)
 
-lengthFactor <- 
-plot(xFICO, loansData$Interest.Rate,
-     # coerce months to years (so they aren't the same color)
+#Plot 4
+lengthFactor <- plot(xFICO, loansData$Interest.Rate,
      col=as.factor(loansData$Loan.Length),
-     pch=19, cex=0.5,
+     pch=19, cex=0.2,
      xlab="Applicant FICO Score",
      ylab="Loan Interest Rate (%)",
      main="Figure 4. Loan Length")
