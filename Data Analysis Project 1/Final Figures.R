@@ -33,31 +33,31 @@ smoothScatter(loansData$FICO.Range, loansData$Interest.Rate,
 #Plot 2
 plot(xFICO, loansData$Interest.Rate,
      col=as.factor(cut(loansData$Amount.Requested,breaks=c(0,7500,15000, 22000,34000))),
-     pch=19, cex=0.2,
+     pch=19, cex=0.7,
      xlab="Applicant FICO Score",
      ylab="Loan Interest Rate (%)",
      main="Figure 2. Amount Requested")
-legend(790,25,
+legend(800,25,
        legend=c("$0-5k", "$5-10k", "$10-20k", "$20-35k"),
        col=c("black", "red", "green", "blue"),
        pch=19, cex=0.60)
 
 #Plot 3
-lengthFactor <- plot(xFICO, loansData$Debt.To.Income.Rati,
+lengthFactor <- plot(xFICO, loansData$Interest.Rate,
                      col=as.factor(cut(loansData$Debt.To.Income.Ratio,breaks=c(0,10,20,30,40))),
-                     pch=19, cex=0.2,
+                     pch=19, cex=0.7,
                      xlab="Applicant FICO Score",
                      ylab="Loan Interest Rate (%)",
                      main="Figure 3. Debt To Income Ratio")
-legend(795, 35,
-       legend=c("0-10%", "10-20%", "$20-30%","30-40%"),
+legend(800,25,
+       legend=c("0-10", "10-20", "20-30","30-40"),
        col=c("black", "red", "green", "blue"),
        pch=19, cex=0.60)
 
 #Plot 4
 lengthFactor <- plot(xFICO, loansData$Interest.Rate,
      col=as.factor(loansData$Loan.Length),
-     pch=19, cex=0.2,
+     pch=19, cex=0.7,
      xlab="Applicant FICO Score",
      ylab="Loan Interest Rate (%)",
      main="Figure 4. Loan Length")
