@@ -1,16 +1,17 @@
 Final Submission
 ================
-```{r}
 # Get data:
-setwd('~/Desktop/coursera-data-analysis/assignments/1')
-load('data/raw/loansData.rda')
+setwd("~/Coursera--DataAnalysis/Data Analysis Project 1")
+load('loansData.rda')
 
 # Clean it:
-loansData$Interest.Rate <- sapply(sub("%", "", loansData$Interest.Rate,), as.numeric)
-loansData$Debt.To.Income.Ratio <- sapply(sub("%", "", loansData$Debt.To.Income.Ratio,), as.numeric)
+  #Replacing % from data & importing as numeric values:
+loansData$Interest.Rate <- sapply(sub(pattern="%",replacement="",x=loansData$Interest.Rate,),FUN=as.numeric)
+loansData$Debt.To.Income.Ratio <- sapply(sub(pattern="%",replacement= "",x=loansData$Debt.To.Income.Ratio,),FUN=as.numeric)
+
+  #Other Changes:
 loansData$Loan.Length <- sapply(sub(" months", "", loansData$Loan.Length,), as.numeric)
-loansData$Employment.Length <- factor(loansData$Employment.Length,
-                                      levels(loansData$Employment.Length)[c(2:3,5:12,4,13,1)])
+loansData$Employment.Length <- factor(loansData$Employment.Length,levels(loansData$Employment.Length)[c(2:3,5:12,4,13,1)])
 loansData$Employment.Length.numeric <- sub(" years?", "", loansData$Employment.Length)
 loansData$Employment.Length.numeric <- sub("\\+", "", loansData$Employment.Length.numeric)
 loansData$Employment.Length.numeric <- sub("< 1", "0", loansData$Employment.Length.numeric)
