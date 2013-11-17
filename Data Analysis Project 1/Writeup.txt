@@ -1,25 +1,22 @@
-Writeup
-
-
 Title: Loan Length and Amount Loaned Associated with Rate of Interest
-=====================================================================
+=========================================================
 
 Introduction:
--------------
+---------------
 
 The Lending Club [1] performs peer-to-peer loans and determines the interest
 rate for a given applicant by considering many different factors. Even though multiple
 factors of every application are assessed, two seem to have a major
 impact on the final interest rate:
-		a)	length of the loan
-		b)	Debt to Income Ratio
+a)  length of the loan
+b)  Debt to Income Ratio
 
 By understanding the relationship between these factors, we can attempt to make
 predictions about the interest rate, and inferences about the overall quality of
 the loan.
 
 Methodology:
-------------
+----------------
 
 ### Data Source:
 
@@ -51,8 +48,8 @@ standard multivariate linear regression model [5] was performed. Factors for the
 model were selected based on the outcomes of the SVD.
 Coefficients were estimated with ordinary least squares [5].
 
-#Parameters:
-#-----------
+Parameters:
+----------------
 
 The loans data used in these analyses contain information captured about the
 following factors of a given loan application:
@@ -109,12 +106,12 @@ loan (_LL_). The regression model includes an error term (_e_) to represent all
 of the unmeasured and unmodeled sources of variance in the interest rate.
 
 We observed a highly statistically significant relationship between interest
-rate and loan length (_P_ < 0.001), as well as a statistically significant
-relationship between interest rate and Debt to Income Ratio (_P_ = 0.004); no
+rate and loan length (_P_ < 0.0014), as well as a statistically significant
+relationship between interest rate and Debt to Income Ratio (_P_ = 0.0042); no
 significant relationship was found between interest rate and amount requested.
 Focusing on the most statistically significant relationship, we noted that a
 change in the loan length corresponded to a change of _b<sub>1</sub>_ = 0.14% in
-the interest rate (95% Confidence Interval: 0.13, 0.16); a change of one unit
+the interest rate (95% Confidence Interval: 0.12, 0.14); a change of one unit
 (_i.e._, 1) in the Debt to Income Ratio corresponded to a change of _b<sub>1</sub> = 2.34%
 in the interest rate (95% Confidence Interval: <0.0001, 0.0002).
 
@@ -137,29 +134,28 @@ also have the strongest effect in the final model. However, the amount requested
 ultimately did not have a statistically significant effect on the interest rate.
 This outcome leads us to suspect that other variables from the data, which were
 otherwise eliminated by the SVD, may affect the interest rate in important
-ways. Unfortunately, we did not analyze these other factors with that level of
-depth and cannot comment on them except to say that future analyses should probe
-them in more detail.
+ways.
 
 Also, it is important to mention that the Loan Length factor only included two
 levels (_i.e._, "36 months" and "60 months"). This may have contributed to the
 strength of the factor's effect on the interest rate. It is unclear from the
 Lending Club's website [1] whether loans of any other length are available.
-Future analyses should incorporate loans with other lengths (_e.g._, 12 months,
-24 months, etc.) and/or loans from other sources to see if the effects and
-patterns indicated in the linear regression model persist.
+
 
 References:
------------
+---------------
 
 1. The Lending Club website
-	URL: https://www.lendingclub.com/home.action
-	10 Nov,2013
+  URL: https://www.lendingclub.com/home.action
+  10 Nov,2013
 2. Coursera.org: Data Analysis Assignment:1
-	URL: https://class.coursera.org/dataanalysis-001/human_grading/view/courses/294/assessments/4/submissions
-   	10 Nov,2013.
-3. R Core Team (2013). "The R Project for Statistical Computing." URL: <http://www.r-project.org>.
-   	12 Nov,2013
+  URL: https://class.coursera.org/dataanalysis-001/human_grading/view/courses/294/assessments/4/submissions
+    10 Nov,2013.
+3. R Core Team (2013)."The R Project for Statistical Computing.
+  URL: http://www.r-project.org
+    12 Nov,2013
 4. SINGLE VALUE DECOMPOSITION (SVD): A GOLFER’S TUTORIAL:
-	URL: http://datascientistinsights.com/2013/02/17/single-value-decomposition-a-golfers-tutotial/
-   	10 Nov,2013
+  URL: http://datascientistinsights.com/2013/02/17/single-value-decomposition-a-golfers-tutotial/
+    10 Nov,2013
+5. Regression Model Fitting:
+  URL: http://www.statmethods.net/stats/regression.html

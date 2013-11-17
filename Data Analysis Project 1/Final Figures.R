@@ -1,9 +1,5 @@
 #Final Submission
 #================
-# Import data:
-setwd("~/Coursera--DataAnalysis/Data Analysis Project 1")
-load('loansData.rda')
-
 # Cleaning dataset:
   #Replacing % from data & importing as numeric values:
 loansData$Interest.Rate <- sapply(sub(pattern="%",replacement="",x=loansData$Interest.Rate,),FUN=as.numeric)
@@ -27,6 +23,7 @@ lm_mine <- lm(loansData$Interest.Rate ~ loansData$Amount.Requested +
                    loansData$Debt.To.Income.Ratio + loansData$Loan.Length)
 xFICO = jitter(as.numeric(loansData$FICO.Range))
 
+par(mfrow=c(2,2))
 #Plot 1
 smoothScatter(loansData$FICO.Range, loansData$Interest.Rate,
               xlab="Applicant FICO Score",
@@ -40,22 +37,22 @@ plot(xFICO, loansData$Interest.Rate,
      xlab="Applicant FICO Score",
      ylab="Loan Interest Rate (%)",
      main="Figure 2. Amount Requested")
-legend(780, 25,
+legend(790,25,
        legend=c("$0-5k", "$5-10k", "$10-20k", "$20-35k"),
        col=c("black", "red", "green", "blue"),
-       pch=19, cex=0.5)
+       pch=19, cex=0.60)
 
 #Plot 3
-lengthFactor <- plot(xFICO, loansData$Debt.To.Income.Ratio,
+lengthFactor <- plot(xFICO, loansData$Debt.To.Income.Rati,
                      col=as.factor(cut(loansData$Debt.To.Income.Ratio,breaks=c(0,10,20,30,40))),
                      pch=19, cex=0.2,
                      xlab="Applicant FICO Score",
                      ylab="Loan Interest Rate (%)",
                      main="Figure 3. Debt To Income Ratio")
-legend(810, 35,
+legend(795, 35,
        legend=c("0-10%", "10-20%", "$20-30%","30-40%"),
        col=c("black", "red", "green", "blue"),
-       pch=19, cex=0.5)
+       pch=19, cex=0.60)
 
 #Plot 4
 lengthFactor <- plot(xFICO, loansData$Interest.Rate,
@@ -64,7 +61,7 @@ lengthFactor <- plot(xFICO, loansData$Interest.Rate,
      xlab="Applicant FICO Score",
      ylab="Loan Interest Rate (%)",
      main="Figure 4. Loan Length")
-legend(780, 25,
+legend(795, 25,
        legend=c("36 months", "60 months"),
        col=c("black", "red"),
-       pch=19, cex=0.5)
+       pch=19, cex=0.60)
