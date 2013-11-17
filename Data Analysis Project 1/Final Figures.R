@@ -1,6 +1,6 @@
-Final Submission
-================
-# Get data:
+#Final Submission
+#================
+# Import data:
 setwd("~/Coursera--DataAnalysis/Data Analysis Project 1")
 load('loansData.rda')
 
@@ -14,14 +14,15 @@ loansData$Loan.Length <- sapply(sub(" months", "", loansData$Loan.Length,),FUN=a
 loansData$Employment.Length <- factor(loansData$Employment.Length,levels(loansData$Employment.Length)[c(2:3,5:12,4,13,1)])
 
 loansData$Employment.Length <- sub(pattern=" years?",replacement="", loansData$Employment.Length)
-loansData$Employment.Length<- sub(pattern="\\+", "",replacement=loansData$Employment.Length)
-loansData$Employment.Length<- sub(pattern="< 1",replacement="0", loansData$Employment.Length)
-loansData$Employment.Length<- sub(pattern="n/a",replacement="-1", loansData$Employment.Length)
+loansData$Employment.Length<- sub(pattern="\\+",replacement="",loansData$Employment.Length)
+loansData$Employment.Length<- sub(pattern="< 1",replacement="0",loansData$Employment.Length)
+loansData$Employment.Length<- sub(pattern="n/a",replacement="-1",loansData$Employment.Length)
 loansData$Employment.Length<- as.numeric(loansData$Employment.Length)
 
 loansData$FICO.Range<- sapply(sub("-\\d{3}", "", loansData$FICO.Range),FUN=as.numeric)
 
 #Figures
+  #Creating a 2x2 frame for graphs
 par(mfrow=c(2,2))
 
 lm_mine <- lm(loansData$Interest.Rate ~ loansData$Amount.Requested +
@@ -34,19 +35,16 @@ smoothScatter(loansData$FICO.Range, loansData$Interest.Rate,
               main="Figure 1. Interest Rate by FICO Score")
 
 plot(xFICO, loansData$Interest.Rate,
-     col=as.factor(cut(loansData$Amount.Requested,
-                       breaks=c(0, 5000, 10000, 20000, 35000))),
+     col=as.factor(cut(loansData$Amount.Requested,breaks=c(0,7500,15000, 22000,34000))),
      pch=19, cex=0.5,
      xlab="Applicant FICO Score",
      ylab="Loan Interest Rate (%)",
      main="Figure 2. Amount Requested")
-# must be an easier way to align the factor to the legend...
 legend(780, 25,
        legend=c("$0-5k", "$5-10k", "$10-20k", "$20-35k"),
        col=c("black", "red", "green", "blue"),
        pch=19, cex=0.5)
 
-#par(mfrow=c(1,1))
 plot(xFICO, loansData$Interest.Rate,
      col=as.factor(cut(loansData$Amount.Funded.By.Investors,
                        breaks=c(0, 5000, 10000, 20000, 35000))),
@@ -59,7 +57,6 @@ legend(780, 25,
        col=c("black", "red", "green", "blue"),
        pch=19, cex=0.5)
 
-#par(mfrow=c(1,1))
 lengthFactor <- 
 plot(xFICO, loansData$Interest.Rate,
      # coerce months to years (so they aren't the same color)

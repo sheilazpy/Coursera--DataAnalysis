@@ -1,45 +1,47 @@
 Writeup
 
 
-Title: Loan Length and Amount Funded Associated with Interest Rate
-================================================================================
+Title: Loan Length and Amount Loaned Associated with Rate of Interest
+=====================================================================
 
 Introduction:
 -------------
 
 The Lending Club [1] performs peer-to-peer loans and determines the interest
-rate for a given applicant by considering several factors. Although multiple
-aspects of an application are assessed, two variables appear to have a key
-impact on the final interest rate: the **length of the loan**, and the
-**amount funded**.
+rate for a given applicant by considering many different factors. Even though multiple
+factors of every application are assessed, two seem to have a major
+impact on the final interest rate:
+		a)	length of the loan
+		b)	amount funded
 
-By understanding the relationship between these variables, we can make
+By understanding the relationship between these factors, we can attempt to make
 predictions about the interest rate, and inferences about the overall quality of
 the loan.
 
-Methods:
---------
+Methodology:
+------------
 
-### Data Collection
+### Data Source:
 
 This analysis used a sample of 2,500 loans from the Lending Club, as provided by
-instructor Jeff Leek for the Data Analysis class on Coursera.org [2]. These data
-were downloaded from the course website on February 16, 2013 using the R
+instructor Jeff Leek for the Data Analysis class on Coursera.org [2]. This data
+was downloaded from the course website on Noverber 5, 2013 using the R
 programming language [3].
 
-### Exploratory Analysis
+### Primary Exploratory Analysis:
 
-Several exploratory analyses were performed on the data set to assess its
-quality and to identify likely correlations among factors. First, observations
-with missing values were identified and removed. Second, transformations were
-performed to sanitize several factors; in particular, labeled variables were
-converted to their numeric equivalents (e.g., `36 months` became `36`). Third,
-plots and tables were surveyed to look for patterns and correlations.
+Several preliminary analyses methods were performed on the data set to assess its
+quality and to identify possible correlations among factors.
+
+First, observations with missing values were identified and removed.
+Second, transformations were performed to sanitize several factors; in particular,
+	labeled variables converted to their numeric equivalents (e.g., `36 months` became `36`).
+Third, plots and tables were surveyed to look for patterns and correlations.
 
 Lastly, a singular value decomposition (SVD) [4] was performed to narrow down the
 number of factors involved in the next phase of analysis. By plotting the values
 of the SVD, the "elbow" suggested that only factors accounting for greater than
-10% of the variance should be kept. As such, we retained the following factors
+12% of the variance should be kept. As such, we retained the following factors
 for further study: **Amount Requested** (24.04%), **Amount Funded** (12.29%),
 and **Loan Length** (10.57%).
 
@@ -47,11 +49,11 @@ and **Loan Length** (10.57%).
 
 To relate the three identified factors with the Interest Rate outcome, a
 standard multivariate linear regression model [5] was performed. Factors for the
-model were selected based on the outcomes of the SVD (*vide supra*).
+model were selected based on the outcomes of the SVD.
 Coefficients were estimated with ordinary least squares [5].
 
-Results:
---------
+#Parameters:
+#-----------
 
 The loans data used in these analyses contain information captured about the
 following factors of a given loan application:
@@ -73,11 +75,13 @@ following factors of a given loan application:
   - **Number of Open Credit Lines** (`Open.CREDIT.Lines`);
   - **Revolving Credit Balance** (`Revolving.CREDIT.Balance`) in dollars;
   - **Number of Credit Inquiries within 6 Months** (`Inquiries.in.the.Last.6.Months`);
-    and
   - **Employment Length** (`Employment.Length`) expressed in years, except where
     the employment length was less than one year or greater than or equal to ten
     years.
 
+
+#Results:
+#-------
 The exploratory analysis identified some missing or erroneous values, but these
 observations were retained for the linear model as the missing values did not
 appear in the factors under consideration. We also identified some outliers, but
