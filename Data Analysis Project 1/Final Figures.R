@@ -2,6 +2,7 @@
 #================
 # Cleaning dataset:
   #Replacing % from data & importing as numeric values:
+load("loansData.rda")
 loansData$Interest.Rate <- sapply(sub(pattern="%",replacement="",x=loansData$Interest.Rate,),FUN=as.numeric)
 loansData$Debt.To.Income.Ratio <- sapply(sub(pattern="%",replacement= "",x=loansData$Debt.To.Income.Ratio,),FUN=as.numeric)
 
@@ -37,7 +38,7 @@ plot(xFICO, loansData$Interest.Rate,
      xlab="Applicant FICO Score",
      ylab="Loan Interest Rate (%)",
      main="Figure 2. Amount Requested")
-legend(800,25,
+legend(807,25.5,
        legend=c("$0-5k", "$5-10k", "$10-20k", "$20-35k"),
        col=c("black", "red", "green", "blue"),
        pch=19, cex=0.60)
@@ -49,7 +50,7 @@ lengthFactor <- plot(xFICO, loansData$Interest.Rate,
                      xlab="Applicant FICO Score",
                      ylab="Loan Interest Rate (%)",
                      main="Figure 3. Debt To Income Ratio")
-legend(800,25,
+legend(813,25.5,
        legend=c("0-10", "10-20", "20-30","30-40"),
        col=c("black", "red", "green", "blue"),
        pch=19, cex=0.60)
@@ -61,7 +62,7 @@ lengthFactor <- plot(xFICO, loansData$Interest.Rate,
      xlab="Applicant FICO Score",
      ylab="Loan Interest Rate (%)",
      main="Figure 4. Loan Length")
-legend(795, 25,
+legend(803, 25.5,
        legend=c("36 months", "60 months"),
        col=c("black", "red"),
        pch=19, cex=0.60)
